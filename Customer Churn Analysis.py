@@ -15,3 +15,14 @@ df = pd.read_csv("ecommerce_customer_churn_dataset.csv")
 df.to_sql("orders",conn,if_exists="append",index=False)
 print(df.head(10))
 
+# Data Featuring
+
+print("shape:",df.shape)
+print()
+print("size:",df.size)
+print()
+print("info:",df.info)
+print()
+print("describe:",df.describe)
+
+
