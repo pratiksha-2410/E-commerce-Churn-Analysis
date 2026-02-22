@@ -34,5 +34,23 @@ print("\n Duplicate Value:",df.duplicated().sum())
 # Convert Dates
 df["Order_Date"] = pd.to_datetime(df["Order_Date"])
 
+# RFM Analysis (Recency,Frequency,Monetary)
 
+# Extract Month
+df["Month"] = df["Order_Date"].dt.month
+# Extract Year
+df["Year"] = df["Order_Date"].dt.year
+# Calculate RFM 
 
+from datetime import datetime 
+today = datetime.now()
+
+rfm = df.groupby('Customer_ID').agg({
+    'Order_Date': lambda x: (today - x.max()).days,
+    'Order_ID': 'count',
+    'Sales': 'sum'
+})
+
+rfm.columns = ['Recency', 'Frequency', 'Monetary']
+
+print(rfm)
