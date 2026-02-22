@@ -88,4 +88,23 @@ print(rfm[["Customer_ID","Monetary"]].to_string(index=False))
 rfm["Churn"] = np.where(rfm["Recency"] > 90,1,0)
 print(rfm["Churn"])
 
+# Total Loss
+
+query = """SELECT SUM(Profit) AS Total_Loss
+FROM orders
+WHERE Profit < 0"""
+
+Total_Loss = pd.read_sql(query,conn)
+
+# Churn Customers
+
+total_customers = rfm.shape[0]
+churn_customers = rfm['Churn'].sum()
+
+churn_rate = churn_customers / total_customers * 100
+
+print("Total Customers:", total_customers)
+print("Churn Customers:", churn_customers)
+print("Churn Rate: {:.2f}%".format(churn_rate))
+
 
