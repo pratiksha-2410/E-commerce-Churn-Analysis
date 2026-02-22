@@ -42,15 +42,45 @@ df["Month"] = df["Order_Date"].dt.month
 df["Year"] = df["Order_Date"].dt.year
 # Calculate RFM 
 
-from datetime import datetime 
-today = datetime.now()
+query = ("""
+SELECT Customer_ID,
+MAX(Order_Date) AS Last_Order,
+COUNT(Order_ID) AS Frequency,
+SUM(Sales) AS Monetary
+FROM orders
+GROUP BY Customer_ID
+""")
 
-rfm = df.groupby('Customer_ID').agg({
-    'Order_Date': lambda x: (today - x.max()).days,
-    'Order_ID': 'count',
-    'Sales': 'sum'
-})
-
-rfm.columns = ['Recency', 'Frequency', 'Monetary']
-
+rfm = pd.read_sql(query,conn)
 print(rfm)
+
+rfm["Last_Order"] = pd.to_datetime(rfm["Last_Order"])
+Latest_Order = rfm["Last_Order"].max()
+rfm["Recency"] = (Latest_Order - rfm["Last_Order"]).dt.days
+
+print("\n",rfm[["Customer_ID","Recency"]].to_string(index=True))
+
+# Calculating Frequency
+
+query = """SELECT Customer_ID,
+COUNT(Order_ID) AS Frequency
+FROM orders
+GROUP BY Customer_ID"""
+
+rfmF = pd.read_sql(query,conn)
+rfmf = rfm["Frequency"]
+
+print(rfm[["Customer_ID","Frequency"]].to_string(index=False))
+
+# Calculating Monetary
+
+query = """SELECT Customer_ID,
+SUM(Sales) AS Monetary
+FROM orders
+GROUP BY Customer_ID"""
+
+rfmM = pd.read_sql(query,conn)
+rfmM = rfm["Monetary"]
+print(rfm[["Customer_ID","Monetary"]].to_string(index=False))
+
+
