@@ -25,4 +25,14 @@ print("info:",df.info)
 print()
 print("describe:",df.describe)
 
+# Data Cleaning
+
+# missisng values
+print("\n Missing Values:",df.isna().sum())
+# duplicated values
+print("\n Duplicate Value:",df.duplicated().sum())
+# Convert Dates
+df["Order_Date"] = pd.to_datetime(df["Order_Date"])
+
+
 
