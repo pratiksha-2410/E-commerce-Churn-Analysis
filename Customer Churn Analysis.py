@@ -83,4 +83,9 @@ rfmM = pd.read_sql(query,conn)
 rfmM = rfm["Monetary"]
 print(rfm[["Customer_ID","Monetary"]].to_string(index=False))
 
+# Create Churn Label
+
+rfm["Churn"] = np.where(rfm["Recency"] > 90,1,0)
+print(rfm["Churn"])
+
 
