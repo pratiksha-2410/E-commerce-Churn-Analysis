@@ -107,4 +107,50 @@ print("Total Customers:", total_customers)
 print("Churn Customers:", churn_customers)
 print("Churn Rate: {:.2f}%".format(churn_rate))
 
+# Visualization
+
+# Churn Distribution
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6,4))
+sns.countplot(x='Churn',data=rfm)
+plt.title("Churn Distribution")
+plt.xlabel("Churn(0=no,1=yes)")
+plt.ylabel("Number of Customers")
+plt.show()
+
+# Churn Rate Percentage Pie Chart
+
+churn_counts = rfm['Churn'].value_counts()
+
+plt.figure(figsize=(6,6))
+plt.pie(churn_counts, 
+        labels=['Not Churned', 'Churned'],
+        autopct='%1.1f%%',
+        startangle=90)
+plt.title("Churn Percentage")
+plt.show()
+
+# Recency VS Churn
+
+plt.figure(figsize=(6,4))
+sns.boxplot(x='Churn', y='Recency', data=rfm)
+plt.title("Recency vs Churn")
+plt.show()
+
+# Frequency VS Churn 
+plt.figure(figsize=(6,4))
+sns.boxplot(x='Churn', y='Frequency', data=rfm)
+plt.title("Frequency vs Churn")
+plt.show()
+
+# Monetary VS Churn
+
+plt.figure(figsize=(6,4))
+sns.boxplot(x='Churn', y='Monetary', data=rfm)
+plt.title("Monetary vs Churn")
+plt.show()
+
 
