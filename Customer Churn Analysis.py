@@ -153,4 +153,14 @@ sns.boxplot(x='Churn', y='Monetary', data=rfm)
 plt.title("Monetary vs Churn")
 plt.show()
 
+# Business Insights 
 
+print("""Business Insights :
+
+1.High Recency → High churn probability
+
+2.Low Frequency customers are at risk
+
+3.High Monetary customers should be retained with loyalty programs
+
+4.Recommend personalized offers for at-risk customers""")
